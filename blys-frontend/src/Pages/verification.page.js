@@ -54,7 +54,8 @@ export const Verification = () => {
       const codeString = code.join("");
 
       // requesting to server.
-      const res = await axios.post("http://localhost:3001/validate", {
+      console.log(process.env.REACT_API)
+      const res = await axios.post(`${process.env.REACT_APP_API}/validate`, {
         code: codeString,
       });
 
