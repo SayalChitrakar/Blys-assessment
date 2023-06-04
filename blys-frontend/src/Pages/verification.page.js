@@ -62,7 +62,7 @@ export const Verification = () => {
       navigate("/success");
     } catch (error) {
       //setting message to display error.
-      setMessage(error.response.data.message);
+      setMessage(error.response?.data.message);
     }
   };
 
