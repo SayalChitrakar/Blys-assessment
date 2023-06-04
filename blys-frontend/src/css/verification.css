@@ -1,0 +1,47 @@
+.blys-btn {
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+  border-radius: 10px;
+  padding: 5px 10px 5px 10px;
+  background-color: #072448;
+  color: white;
+  border: none;
+  width: 82%;
+  transition: width 0.5s;
+}
+
+.blys-btn:disabled {
+  width: 80%;
+  background-color: white;
+  color: #072448;
+  border: 1px solid #072448;
+}
+.input-container {
+  width: 80%;
+}
+.input-container input {
+  color: gray;
+}
+
+.input-container input[value=""] {
+  border: 1px solid lightgray;
+}
+.invalidInput {
+  border: 1px solid #e74645 !important;
+  color: #e74645 !important;
+}
+.validInput {
+  border: 1px solid #072448 !important;
+}
+.input-container input:focus {
+  border: 1px solid #072448;
+}
+@media only screen and (max-width: 768px) {
+  .input-container {
+    width: 100%;
+  }
+}
+@media (max-width: 575.98px) {
+  .input-container {
+    width: 100%;
+  }
+}
