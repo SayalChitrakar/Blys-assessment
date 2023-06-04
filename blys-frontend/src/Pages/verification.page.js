@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 export const Verification = () => {
   const [code, setCode] = React.useState(["", "", "", "", "", ""]);
   const [message, setMessage] = React.useState("");
-  const [success, setSuccess] = React.useState(false);
   const [btnDisabled, setBtnDisabled] = React.useState(true);
   const inputRefs = React.useRef([]);
   const navigate = useNavigate();
@@ -17,17 +16,26 @@ export const Verification = () => {
       inputRefs.current[index + 1].focus();
   };
 
+  // Highlight for invalid char
   const invalidChar = (index) => {
     inputRefs.current[index].classList.remove("validInput");
     inputRefs.current[index].classList.add("invalidInput");
   };
 
+  // Highlight for valid char
   const validChar = (index) => {
     inputRefs.current[index].classList.remove("invalidInput");
     inputRefs.current[index].classList.add("validInput");
   };
 
+  // Highlight for emptyChar
+  const emptyChar = (index) => {
+    inputRefs.current[index].classList.remove("invalidInput");
+    inputRefs.current[index].classList.remove("validInput");
+  };
+
   React.useEffect(() => {
+    //Checks if any of the input input contain empty value and disable the input accordingly.
     if (!code.includes("")) {
       setBtnDisabled(false);
     } else {
@@ -42,15 +50,19 @@ export const Verification = () => {
         return;
       }
 
+      //The code is in array form. So convert the array to string before sending it to server.
       const codeString = code.join("");
+
+      // requesting to server.
       const res = await axios.post("http://localhost:3001/validate", {
         code: codeString,
       });
 
+      //navigation to success page if the request is success else try block handles the issue.
       navigate("/success");
     } catch (error) {
+      //setting message to display error.
       setMessage(error.response.data.message);
-      setSuccess(false);
     }
   };
 
@@ -59,13 +71,7 @@ export const Verification = () => {
       <div className="App-modal col-sm-12 col-md-8 col-lg-6">
         <h2>Verification Code</h2>
         {message && (
-          <div
-            // className={success ? "alert alert-success w-50 p-1" : "alert alert-danger w-50 p-1"}
-            className={`alert w-100 p-1 mt-3 ${
-              success ? "alert-success" : "alert-danger"
-            }`}
-            role="alert"
-          >
+          <div className="alert w-100 p-1 mt-3 alert-danger" role="alert">
             {message}
           </div>
         )}
@@ -86,6 +92,7 @@ export const Verification = () => {
                   setBtnDisabled={setBtnDisabled}
                   invalidChar={invalidChar}
                   validChar={validChar}
+                  emptyChar={emptyChar}
                 />
               </div>
             );

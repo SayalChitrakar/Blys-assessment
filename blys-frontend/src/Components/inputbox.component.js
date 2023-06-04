@@ -4,7 +4,9 @@ export const InputBox = React.forwardRef((props, ref) => {
     event.preventDefault();
     let { value } = event.target;
     value = value.replace(/\s/g, "");
-    if (!/^(|\d+)$/.test(value)) {
+    if (value === "") {
+      props.emptyChar(props.index);
+    } else if (!/^(|\d+)$/.test(value)) {
       props.invalidChar(props.index);
     } else {
       props.validChar(props.index);
@@ -48,15 +50,18 @@ export const InputBox = React.forwardRef((props, ref) => {
   const handleKeyDown = (event) => {
     if (event.key === "ArrowRight") {
       props.focusNext(props.index);
+      event.preventDefault();
     }
     if (event.key === "ArrowLeft") {
       props.focusNext(props.index - 2);
+      event.preventDefault();
     }
   };
   return (
     <>
       <div className="input-group input-group-md mb-3">
         <input
+          data-testid="test-input"
           ref={ref}
           type="text"
           className={`form-control`}
